@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SMP PGRI Cililin — Sekolah GEULIS, Bandung Barat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+:root {
+  --c-navy:        #0d1b3e;
+  --c-navy-2:      #152d5f;
+  --c-navy-3:      #1e3a7a;
+  --c-gold:        #c9a84c;
+  --c-gold-lt:     #e0c06a;
+  --c-gold-pale:   #f5ead0;
+  --c-white:       #ffffff;
+  --c-off:         #f7f8fc;
+  --c-gray-1:      #edf0f7;
+  --c-gray-2:      #c4c9d8;
+  --c-gray-3:      #8891aa;
+  --c-text:        #1a2240;
+  --c-text-2:      #4a5370;
+
+  --ff-head: 'DM Serif Display', Georgia, serif;
+  --ff-body: 'DM Sans', sans-serif;
+
+  --r-sm:  8px;
+  --r-md:  14px;
+  --r-lg:  22px;
+  --r-xl:  32px;
+
+  --sh-sm: 0 2px 12px rgba(13,27,62,.07);
+  --sh-md: 0 6px 28px rgba(13,27,62,.12);
+  --sh-lg: 0 18px 60px rgba(13,27,62,.18);
+
+  --t: .32s cubic-bezier(.4,0,.2,1);
+  --max: 1160px;
+}
+
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; font-size:16px; }
+body { font-family:var(--ff-body); color:var(--c-text); background:var(--c-white); line-height:1.7; overflow-x:hidden; }
+img  { max-width:100%; display:block; }
+a    { text-decoration:none; color:inherit; }
+ul   { list-style:none; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; }
+
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--c-gray-1); }
+::-webkit-scrollbar-thumb { background:var(--c-navy-2); border-radius:99px; }
+
+/* ============================================================
+   LAYOUT HELPERS
+============================================================ */
+.wrap   { max-width:var(--max); margin:0 auto; padding:0 1.75rem; }
+.sec    { padding:6rem 0; }
+.sec-sm { padding:4rem 0; }
+
+.label {
+  display:inline-block;
+  font-size:.7rem; font-weight:700; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--c-gold);
+  margin-bottom:.6rem;
+}
+.title {
+  font-family:var(--ff-head);
+  font-size:clamp(1.9rem,3.8vw,3rem);
+  color:var(--c-navy); line-height:1.18;
+}
+.subtitle {
+  font-size:1rem; color:var(--c-text-2);
+  max-width:580px; line-height:1.85; margin-top:.75rem;
+}
+.gold-bar {
+  display:block; width:44px; height:3px;
+  background:linear-gradient(90deg,var(--c-gold),var(--c-gold-lt));
+  border-radius:99px; margin-top:1rem;
+}
+
+/* BUTTONS */
+.btn {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.8rem 1.9rem; border-radius:50px;
+  font-size:.9rem; font-weight:600;
+  transition:var(--t); white-space:nowrap;
+}
+.btn-gold {
+  background:linear-gradient(135deg,var(--c-gold),var(--c-gold-lt));
+  color:var(--c-navy); box-shadow:0 4px 18px rgba(201,168,76,.38);
+}
+.btn-gold:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(201,168,76,.5); }
+.btn-outline {
+  background:transparent; color:var(--c-white);
+  border:1.5px solid rgba(255,255,255,.45);
+}
+.btn-outline:hover { background:rgba(255,255,255,.1); border-color:var(--c-white); }
+.btn-navy {
+  background:var(--c-navy); color:var(--c-white); box-shadow:var(--sh-sm);
+}
+.btn-navy:hover { background:var(--c-navy-3); transform:translateY(-2px); }
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+#nav {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  padding:1.1rem 0;
+  transition:var(--t);
+}
+#nav.stuck {
+  background:rgba(13,27,62,.97);
+  backdrop-filter:blur(18px);
+  padding:.75rem 0;
+  box-shadow:0 4px 30px rgba(0,0,0,.22);
+}
+.nav-inner {
+  display:flex; align-items:center;
+  justify-content:space-between; gap:2rem;
+}
+.nav-logo {
+  display:flex; align-items:center; gap:.8rem;
+  flex-shrink:0;
+}
+.nav-logo img {
+  width:46px; height:46px;
+  border-radius:10px; object-fit:contain;
+  background:var(--c-white); padding:3px;
+}
+.nav-logo-txt { color:var(--c-white); }
+.nav-logo-txt strong {
+  display:block; font-family:var(--ff-head);
+  font-size:1.05rem; line-height:1.1;
+}
+.nav-logo-txt span {
+  font-size:.68rem; letter-spacing:.12em;
+  text-transform:uppercase; opacity:.6;
+}
+.nav-menu {
+  display:flex; align-items:center; gap:.15rem;
+}
+.nav-menu a {
+  color:rgba(255,255,255,.8); font-size:.855rem; font-weight:500;
+  padding:.45rem .9rem; border-radius:8px; transition:var(--t);
+}
+.nav-menu a:hover,
+.nav-menu a.active { color:var(--c-white); background:rgba(255,255,255,.1); }
+.nav-cta { margin-left:.6rem; }
+
+/* hamburger – CSS only toggle via checkbox */
+.nav-toggle-cb { display:none; }
+.hamburger {
+  display:none; flex-direction:column; gap:5px;
+  padding:.35rem; cursor:pointer;
+}
+.hamburger span {
+  display:block; width:24px; height:2px;
+  background:var(--c-white); border-radius:99px; transition:var(--t);
+}
+@media(max-width:860px){
+  .hamburger { display:flex; }
+  .nav-cta   { display:none; }
+  .nav-menu  {
+    position:fixed; inset:0 0 0 35%;
+    background:var(--c-navy);
+    flex-direction:column; align-items:flex-start;
+    gap:0; padding:5rem 2rem 2rem;
+    transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.4,0,.2,1);
+    box-shadow:-8px 0 40px rgba(0,0,0,.3);
+  }
+  .nav-menu a {
+    display:block; width:100%; padding:.9rem 1rem;
+    font-size:1rem; border-bottom:1px solid rgba(255,255,255,.07);
+  }
+  .nav-toggle-cb:checked ~ .nav-menu { transform:translateX(0); }
+  .nav-toggle-cb:checked ~ label .hamburger span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  .nav-toggle-cb:checked ~ label .hamburger span:nth-child(2) { opacity:0; }
+  .nav-toggle-cb:checked ~ label .hamburger span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+}
+
+/* ============================================================
+   HERO
+============================================================ */
+#hero {
+  min-height:100vh;
+  background:linear-gradient(148deg,var(--c-navy) 0%,var(--c-navy-2) 55%,#1d3b6e 100%);
+  position:relative; overflow:hidden;
+  display:flex; align-items:center;
+}
+/* decorative grid */
+#hero::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size:72px 72px;
+}
+/* radial glow */
+#hero::after {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 68% 38%, rgba(201,168,76,.09) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 15% 75%, rgba(201,168,76,.05) 0%, transparent 55%);
+}
+/* big decorative ring */
+.hero-ring {
+  position:absolute; right:-220px; top:50%; transform:translateY(-50%);
+  width:680px; height:680px; border-radius:50%;
+  border:1px solid rgba(201,168,76,.1); pointer-events:none;
+}
+.hero-ring::before {
+  content:''; position:absolute; inset:70px; border-radius:50%;
+  border:1px solid rgba(201,168,76,.06);
+}
+.hero-ring::after {
+  content:''; position:absolute; inset:140px; border-radius:50%;
+  border:1px solid rgba(201,168,76,.04);
+}
+.hero-content {
+  position:relative; z-index:2;
+  padding:9rem 0 6rem;
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:.55rem;
+  background:rgba(201,168,76,.13); border:1px solid rgba(201,168,76,.28);
+  color:var(--c-gold-lt); font-size:.73rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase;
+  padding:.38rem 1rem; border-radius:50px; margin-bottom:1.8rem;
+  animation:fadeUp .55s ease both;
+}
+.hero-eyebrow .dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--c-gold-lt); flex-shrink:0;
+}
+.hero-h1 {
+  font-family:var(--ff-head);
+  font-size:clamp(2.8rem,6.5vw,5.2rem);
+  color:var(--c-white); line-height:1.07; font-weight:400;
+  animation:fadeUp .6s .1s ease both;
+}
+.hero-h1 em {
+  font-style:italic;
+  background:linear-gradient(90deg,var(--c-gold),var(--c-gold-lt));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub {
+  font-size:1.05rem; color:rgba(255,255,255,.7);
+  max-width:520px; line-height:1.88; margin-top:1.1rem;
+  animation:fadeUp .6s .18s ease both;
+}
+.hero-geulis {
+  display:flex; flex-wrap:wrap; gap:.45rem; margin-top:1.3rem;
+  animation:fadeUp .6s .26s ease both;
+}
+.gtag {
+  padding:.28rem .75rem; border-radius:50px;
+  background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.75); font-size:.73rem; font-weight:500;
+  transition:var(--t);
+}
+.gtag:hover { background:rgba(201,168,76,.18); border-color:rgba(201,168,76,.4); color:var(--c-gold-lt); }
+.hero-actions {
+  display:flex; flex-wrap:wrap; gap:.9rem; margin-top:2.2rem;
+  animation:fadeUp .6s .34s ease both;
+}
+.hero-stats {
+  display:flex; flex-wrap:wrap; gap:2.5rem;
+  margin-top:3.5rem; padding-top:2rem;
+  border-top:1px solid rgba(255,255,255,.1);
+  animation:fadeUp .6s .42s ease both;
+}
+.stat strong {
+  display:block; font-family:var(--ff-head);
+  font-size:2.1rem; color:var(--c-gold-lt); line-height:1;
+}
+.stat span { font-size:.76rem; color:rgba(255,255,255,.55); letter-spacing:.04em; }
+
+/* ============================================================
+   SECTION: ABOUT
+============================================================ */
+#about { background:var(--c-off); }
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:4.5rem;
+  align-items:start;
+}
+/* history card */
+.history-card {
+  background:var(--c-white); border-radius:var(--r-lg);
+  padding:2.4rem; box-shadow:var(--sh-sm);
+  border-top:4px solid var(--c-gold);
+}
+.yr {
+  font-family:var(--ff-head); font-size:3.8rem;
+  color:var(--c-gold); line-height:1; margin-bottom:.4rem;
+}
+.history-card h3 {
+  font-family:var(--ff-head); font-size:1.35rem;
+  color:var(--c-navy); margin-bottom:.75rem;
+}
+.history-card p { font-size:.92rem; color:var(--c-text-2); line-height:1.85; }
+.history-card p + p { margin-top:.7rem; }
+/* vision box */
+.vision-box {
+  background:linear-gradient(140deg,var(--c-navy),var(--c-navy-3));
+  border-radius:var(--r-lg); padding:2.4rem; color:var(--c-white);
+  margin-bottom:1.5rem;
+}
+.vision-box .lbl {
+  font-size:.68rem; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--c-gold-lt); margin-bottom:.75rem;
+}
+.vision-stmt {
+  font-family:var(--ff-head); font-size:1.35rem; line-height:1.45;
+}
+/* mission list */
+.mission-list { display:flex; flex-direction:column; gap:.75rem; }
+.mi {
+  display:flex; gap:.9rem; align-items:flex-start;
+  background:var(--c-white); border-radius:var(--r-sm);
+  padding:1rem 1.2rem; box-shadow:var(--sh-sm);
+  transition:var(--t);
+}
+.mi:hover { box-shadow:var(--sh-md); transform:translateX(4px); }
+.mi-num {
+  font-size:.78rem; font-weight:800; color:var(--c-gold);
+  flex-shrink:0; padding-top:.15rem;
+}
+.mi p { font-size:.88rem; color:var(--c-text-2); line-height:1.75; }
+
+/* ============================================================
+   SECTION: GEULIS VALUES
+============================================================ */
+#values { background:var(--c-white); }
+.values-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;
+  margin-top:3rem;
+}
+.val-card {
+  background:var(--c-off); border-radius:var(--r-md);
+  padding:1.8rem; border-bottom:3px solid transparent;
+  transition:var(--t); cursor:default;
+}
+.val-card:hover {
+  background:var(--c-white); box-shadow:var(--sh-md);
+  border-bottom-color:var(--c-gold); transform:translateY(-5px);
+}
+.val-icon {
+  width:46px; height:46px; border-radius:11px;
+  background:linear-gradient(135deg,rgba(13,27,62,.07),rgba(13,27,62,.03));
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; margin-bottom:1rem;
+}
+.val-card h4 { font-weight:700; color:var(--c-navy); font-size:.95rem; margin-bottom:.35rem; }
+.val-card p  { font-size:.83rem; color:var(--c-text-2); line-height:1.75; }
+
+/* ============================================================
+   SECTION: ACADEMIC
+============================================================ */
+#academic { background:var(--c-off); }
+.academic-inner {
+  display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;
+}
+.academic-inner.flip { direction:rtl; }
+.academic-inner.flip > * { direction:ltr; }
+.ac-visual {
+  border-radius:var(--r-lg); overflow:hidden;
+  background:linear-gradient(140deg,var(--c-navy),var(--c-navy-3));
+  aspect-ratio:16/10; display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.ac-visual-bg {
+  font-family:var(--ff-head); font-size:7rem; font-weight:400;
+  color:rgba(255,255,255,.07); user-select:none; pointer-events:none;
+  position:absolute;
+}
+.ac-visual-icon { font-size:4rem; position:relative; z-index:1; }
+.ac-tag {
+  display:inline-block; background:rgba(201,168,76,.12); color:var(--c-gold);
+  border:1px solid rgba(201,168,76,.25); font-size:.7rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; padding:.3rem .8rem;
+  border-radius:50px; margin-bottom:.75rem;
+}
+.pillar-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:.9rem; margin-top:1.4rem;
+}
+.pillar {
+  background:var(--c-white); border-radius:var(--r-sm);
+  padding:1rem 1.15rem; border-left:3px solid var(--c-gold);
+  box-shadow:var(--sh-sm);
+}
+.pillar h5 { font-size:.83rem; font-weight:700; color:var(--c-navy); margin-bottom:.22rem; }
+.pillar p  { font-size:.78rem; color:var(--c-text-2); line-height:1.65; }
+.method-tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.4rem; }
+.m-tag {
+  background:var(--c-gray-1); color:var(--c-navy);
+  font-size:.76rem; font-weight:600; padding:.3rem .85rem;
+  border-radius:50px; border:1px solid var(--c-gray-1);
+}
+.spacer { margin-top:5rem; }
+
+/* ============================================================
+   SECTION: STUDENT LIFE
+============================================================ */
+#student-life { background:var(--c-white); }
+.ekskul-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1.4rem;
+  margin-top:2.8rem;
+}
+.ekskul-card {
+  background:var(--c-off); border-radius:var(--r-md); overflow:hidden;
+  box-shadow:var(--sh-sm); transition:var(--t);
+  display:flex; flex-direction:column;
+}
+.ekskul-card:hover {
+  transform:translateY(-7px); box-shadow:var(--sh-lg);
+}
+.ekskul-card:hover .ec-head { background:var(--c-navy-3); }
+.ec-head {
+  background:var(--c-navy);
+  aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;
+  font-size:3rem; position:relative; transition:var(--t);
+}
+.ec-badge {
+  position:absolute; top:.7rem; right:.7rem;
+  background:var(--c-gold); color:var(--c-navy);
+  font-size:.64rem; font-weight:800; padding:.22rem .62rem;
+  border-radius:50px; letter-spacing:.06em; text-transform:uppercase;
+}
+.ec-body { padding:1.35rem; flex:1; }
+.ec-body h3 {
+  font-family:var(--ff-head); font-size:1.1rem; color:var(--c-navy);
+  margin-bottom:.38rem;
+}
+.ec-body p  { font-size:.82rem; color:var(--c-text-2); line-height:1.72; }
+.ec-link {
+  display:inline-flex; align-items:center; gap:.35rem;
+  margin-top:.8rem; font-size:.78rem; font-weight:700;
+  color:var(--c-navy); opacity:.65; transition:var(--t);
+}
+.ekskul-card:hover .ec-link { opacity:1; color:var(--c-navy-3); }
+
+/* habits */
+.habits-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:1.2rem; margin-top:3rem;
+}
+.habit {
+  display:flex; gap:1rem; align-items:flex-start;
+  background:var(--c-off); border-radius:var(--r-md);
+  padding:1.4rem; transition:var(--t);
+}
+.habit:hover { background:var(--c-white); box-shadow:var(--sh-md); }
+.habit-ico {
+  width:46px; height:46px; border-radius:11px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--c-navy),var(--c-navy-3));
+  display:flex; align-items:center; justify-content:center; font-size:1.3rem;
+}
+.habit h4 { font-size:.9rem; font-weight:700; color:var(--c-navy); margin-bottom:.28rem; }
+.habit p  { font-size:.82rem; color:var(--c-text-2); line-height:1.72; }
+
+/* ============================================================
+   SECTION: GALLERY
+============================================================ */
+#gallery { background:var(--c-off); }
+.gallery-filter {
+  display:flex; flex-wrap:wrap; gap:.5rem; margin:1.8rem 0;
+}
+.gf-btn {
+  padding:.38rem 1rem; border-radius:50px;
+  border:1.5px solid var(--c-gray-1); background:var(--c-white);
+  font-size:.8rem; font-weight:600; color:var(--c-text-2);
+  cursor:pointer; transition:var(--t);
+}
+.gf-btn:hover,
+input[name=gf]:checked + .gf-btn {
+  background:var(--c-navy); color:var(--c-white); border-color:var(--c-navy);
+}
+input[name=gf] { display:none; }
+
+/* Masonry-like grid */
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-auto-rows:200px;
+  gap:1rem;
+}
+.gi {
+  border-radius:var(--r-md); overflow:hidden; position:relative;
+  background:linear-gradient(135deg,var(--c-navy),var(--c-navy-3));
+  transition:var(--t); cursor:pointer;
+}
+.gi:hover { transform:scale(1.02); box-shadow:var(--sh-lg); z-index:1; }
+.gi.tall { grid-row:span 2; }
+.gi.wide { grid-column:span 2; }
+.gi-ico {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:3.2rem; opacity:.15; user-select:none; pointer-events:none;
+}
+.gi-label {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(to top,rgba(13,27,62,.92),transparent);
+  color:var(--c-white); padding:1.2rem 1rem .85rem;
+  transform:translateY(6px); opacity:0;
+  transition:var(--t);
+}
+.gi:hover .gi-label { opacity:1; transform:translateY(0); }
+.gi-label strong { display:block; font-size:.88rem; font-weight:700; }
+.gi-label span   { font-size:.74rem; opacity:.75; }
+
+/* tint variants */
+.gi.t1 { background:linear-gradient(135deg,#0d2a5e,#1a4a8a); }
+.gi.t2 { background:linear-gradient(135deg,#102240,#1e3560); }
+.gi.t3 { background:linear-gradient(135deg,#0a1e3c,#162d54); }
+.gi.t4 { background:linear-gradient(135deg,#142550,#0d1b3e); }
+.gi.t5 { background:linear-gradient(135deg,#0d2244,#163266); }
+.gi.t6 { background:linear-gradient(135deg,#111e40,#1c3068); }
+.gi.t7 { background:linear-gradient(135deg,#0e2248,#1a3870); }
+
+/* ============================================================
+   PPDB BANNER
+============================================================ */
+#ppdb {
+  background:linear-gradient(120deg,var(--c-gold) 0%,var(--c-gold-lt) 100%);
+  padding:4.5rem 0; text-align:center;
+}
+#ppdb h2 {
+  font-family:var(--ff-head); font-size:clamp(2rem,4vw,3rem);
+  color:var(--c-navy);
+}
+#ppdb p   { color:rgba(13,27,62,.72); margin:.8rem auto 2rem; max-width:520px; font-size:1rem; line-height:1.75; }
+.ppdb-chips { display:flex; justify-content:center; flex-wrap:wrap; gap:.6rem; margin-bottom:2.2rem; }
+.pchip {
+  background:rgba(13,27,62,.1); color:var(--c-navy);
+  font-size:.78rem; font-weight:700; padding:.35rem 1rem;
+  border-radius:50px; letter-spacing:.04em;
+}
+
+/* ============================================================
+   SECTION: CONTACT
+============================================================ */
+#contact { background:var(--c-white); }
+.contact-grid {
+  display:grid; grid-template-columns:1fr 1.45fr; gap:4rem; align-items:start;
+}
+.contact-left h2 {
+  font-family:var(--ff-head); font-size:clamp(1.8rem,3.2vw,2.6rem);
+  color:var(--c-navy); line-height:1.22;
+}
+.contact-left p.tagline {
+  font-size:.95rem; color:var(--c-text-2); margin:1rem 0 2rem; line-height:1.82;
+}
+.cinfo { display:flex; flex-direction:column; gap:1rem; }
+.ci {
+  display:flex; gap:.9rem; align-items:flex-start;
+}
+.ci-ico {
+  width:42px; height:42px; border-radius:10px; flex-shrink:0;
+  background:var(--c-off); display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; border:1px solid var(--c-gray-1);
+}
+.ci h5 {
+  font-size:.72rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--c-gray-3); margin-bottom:.2rem;
+}
+.ci p, .ci a {
+  font-size:.92rem; font-weight:500; color:var(--c-text); transition:var(--t);
+}
+.ci a:hover { color:var(--c-gold); }
+.visit-note {
+  margin-top:1.8rem; padding:1.3rem 1.5rem;
+  background:var(--c-gold-pale); border-radius:var(--r-md);
+  border-left:4px solid var(--c-gold);
+}
+.visit-note p { font-size:.85rem; color:var(--c-text-2); line-height:1.8; }
+.visit-note strong { color:var(--c-navy); }
+
+/* form */
+.contact-form {
+  background:var(--c-off); border-radius:var(--r-lg); padding:2.5rem;
+}
+.contact-form h3 {
+  font-family:var(--ff-head); font-size:1.4rem; color:var(--c-navy); margin-bottom:.3rem;
+}
+.contact-form > p { font-size:.87rem; color:var(--c-text-2); margin-bottom:1.8rem; }
+.frow { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.fg { display:flex; flex-direction:column; gap:.38rem; margin-bottom:1rem; }
+.fg label {
+  font-size:.76rem; font-weight:700; color:var(--c-navy);
+  text-transform:uppercase; letter-spacing:.06em;
+}
+.fg input, .fg textarea, .fg select {
+  padding:.75rem 1rem; border:1.5px solid var(--c-gray-1);
+  border-radius:10px; font-family:var(--ff-body); font-size:.88rem;
+  color:var(--c-text); background:var(--c-white); outline:none;
+  transition:var(--t); resize:none;
+}
+.fg input:focus, .fg textarea:focus, .fg select:focus {
+  border-color:var(--c-navy-3); box-shadow:0 0 0 3px rgba(30,58,122,.07);
+}
+.fg textarea { height:108px; }
+.submit-btn {
+  width:100%; padding:1rem; border-radius:50px;
+  background:linear-gradient(135deg,var(--c-navy),var(--c-navy-3));
+  color:var(--c-white); font-size:.92rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+  transition:var(--t); box-shadow:var(--sh-sm);
+}
+.submit-btn:hover { background:var(--c-gold); color:var(--c-navy); transform:translateY(-2px); box-shadow:var(--sh-md); }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  background:var(--c-navy); color:rgba(255,255,255,.75);
+  padding:4rem 0 2rem;
+}
+.footer-grid {
+  display:grid; grid-template-columns:1.7fr 1fr 1fr 1fr; gap:3rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-brand img {
+  width:44px; height:44px; border-radius:10px;
+  object-fit:contain; background:var(--c-white); padding:3px; margin-bottom:.9rem;
+}
+.footer-brand strong {
+  display:block; font-family:var(--ff-head); font-size:1.05rem;
+  color:var(--c-white); margin-bottom:.6rem;
+}
+.footer-brand p { font-size:.84rem; line-height:1.82; color:rgba(255,255,255,.5); }
+.footer-social { display:flex; gap:.55rem; margin-top:1.1rem; }
+.soc-btn {
+  width:34px; height:34px; border-radius:8px;
+  background:rgba(255,255,255,.07);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem; transition:var(--t); color:rgba(255,255,255,.65);
+}
+.soc-btn:hover { background:var(--c-gold); color:var(--c-navy); }
+.footer-col h4 {
+  font-size:.72rem; font-weight:800; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--c-gold-lt); margin-bottom:1.2rem;
+}
+.footer-col ul { display:flex; flex-direction:column; gap:.55rem; }
+.footer-col ul a {
+  font-size:.85rem; color:rgba(255,255,255,.55); transition:var(--t);
+}
+.footer-col ul a:hover { color:var(--c-white); }
+.footer-bottom {
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem; padding-top:2rem;
+  font-size:.77rem; color:rgba(255,255,255,.3);
+}
+.geulis-tags { display:flex; flex-wrap:wrap; gap:.35rem; }
+.geulis-tags span {
+  background:rgba(201,168,76,.1); color:var(--c-gold-lt);
+  font-size:.64rem; font-weight:700; padding:.18rem .6rem;
+  border-radius:50px; letter-spacing:.04em;
+}
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media(max-width:1000px){
+  .about-grid,
+  .academic-inner,
+  .contact-grid { grid-template-columns:1fr; }
+  .academic-inner.flip { direction:ltr; }
+  .footer-grid  { grid-template-columns:1fr 1fr; }
+  .ekskul-grid  { grid-template-columns:repeat(2,1fr); }
+  .values-grid  { grid-template-columns:repeat(2,1fr); }
+}
+@media(max-width:660px){
+  .ekskul-grid,
+  .habits-grid,
+  .frow,
+  .pillar-grid,
+  .values-grid,
+  .gallery-grid,
+  .contact-grid { grid-template-columns:1fr; }
+  .gallery-grid { grid-auto-rows:180px; }
+  .gi.tall,.gi.wide { grid-row:auto; grid-column:auto; }
+  .footer-grid { grid-template-columns:1fr; }
+  .hero-stats  { gap:1.3rem; }
+  .footer-bottom { flex-direction:column; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#hero" class="nav-logo">
+        <img
+          src="C:\Users\muham\Downloads\logo.png"
+          alt="Logo SMP PGRI Cililin"
+          onerror="this.style.display='none';this.parentElement.querySelector('.logo-fallback').style.display='flex'"
+        />
+        <!-- fallback badge if image fails -->
+        <div class="logo-fallback" style="display:none;width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#c9a84c,#e0c06a);align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-weight:400;font-size:.9rem;color:#0d1b3e;flex-shrink:0">SMP</div>
+        <div class="nav-logo-txt">
+          <strong>SMP PGRI Cililin</strong>
+          <span>Bandung Barat · Est. 1967</span>
+        </div>
+      </a>
+
+      <!-- CSS-only hamburger -->
+      <input type="checkbox" id="nav-cb" class="nav-toggle-cb"/>
+      <label for="nav-cb" style="display:flex;align-items:center;cursor:pointer">
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </label>
+
+      <div class="nav-menu">
+        <a href="#hero"        class="active">Beranda</a>
+        <a href="#about">Profil</a>
+        <a href="#academic">Akademik</a>
+        <a href="#student-life">Kesiswaan</a>
+        <a href="#gallery">Galeri</a>
+        <a href="#contact">Kontak</a>
+        <a href="#ppdb" class="btn btn-gold nav-cta" style="margin-left:.4rem">Daftar PPDB</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-ring"></div>
+  <div class="wrap">
+    <div class="hero-content">
+
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Sekolah GEULIS — Bandung Barat, Jawa Barat
+      </div>
+
+      <h1 class="hero-h1">
+        Tempat Karakter<br/>
+        Tumbuh &amp; Prestasi<br/>
+        <em>Melampaui Batas</em>
+      </h1>
+
+      <p class="hero-sub">
+        SMP PGRI Cililin hadir sebagai ruang tumbuh yang sesungguhnya — membentuk generasi yang berilmu, berkarakter mulia, dan siap menghadapi dunia dengan penuh keyakinan.
+      </p>
+
+      <div class="hero-geulis">
+        <span class="gtag">🤝 Gotong Royong</span>
+        <span class="gtag">💛 Empati</span>
+        <span class="gtag">🏆 Unggul dalam Prestasi</span>
+        <span class="gtag">🌿 Berbudaya &amp; Berkarakter</span>
+        <span class="gtag">💡 Inovatif</span>
+        <span class="gtag">🙏 Santun</span>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#ppdb" class="btn btn-gold">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Daftar PPDB 2025/2026
+        </a>
+        <a href="#about" class="btn btn-outline">Kenali Kami →</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><strong>57+</strong><span>Tahun Berdiri</span></div>
+        <div class="stat"><strong>213</strong><span>Siswa Aktif</span></div>
+        <div class="stat"><strong>15</strong><span>Tenaga Pendidik</span></div>
+        <div class="stat"><strong>4</strong><span>Ekskul Unggulan</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     ABOUT
+══════════════════════════════════════════════════════════ -->
+<section id="about" class="sec">
+  <div class="wrap">
+    <div style="text-align:center; margin-bottom:3.2rem">
+      <span class="label">Tentang Kami</span>
+      <h2 class="title">Sejarah, Visi &amp; Misi</h2>
+      <p class="subtitle" style="margin:0 auto">Lebih dari setengah abad melayani masyarakat Cililin dan Bandung Barat dengan dedikasi penuh.</p>
+    </div>
+
+    <div class="about-grid">
+      <!-- Left: history -->
+      <div>
+        <div class="history-card">
+          <div class="yr">1967</div>
+          <h3>Akar yang Kuat, Masa Depan yang Cerah</h3>
+          <p>SMP PGRI Cililin berdiri pada tahun 1967 atas prakarsa para pendidik berdedikasi di bawah naungan Persatuan Guru Republik Indonesia (PGRI). Hadir untuk menjawab kebutuhan masyarakat Cililin akan pendidikan menengah berkualitas, terjangkau, dan berkarakter.</p>
+          <p>Lebih dari lima dekade berlalu, sekolah ini terus bertumbuh — memperkuat fondasi akademik, memperluas fasilitas, dan memperbarui metode pembelajaran agar selalu relevan. Ribuan alumni kini menapaki jalan sukses mereka, membawa nilai-nilai GEULIS ke mana pun melangkah.</p>
+        </div>
+      </div>
+
+      <!-- Right: vision + mission -->
+      <div>
+        <div class="vision-box">
+          <div class="lbl">Visi Sekolah</div>
+          <p class="vision-stmt">"Mewujudkan peserta didik yang unggul dalam ilmu, mulia dalam akhlak, dan tangguh menghadapi era global — berdasarkan iman, budaya, dan semangat kebangsaan."</p>
+        </div>
+
+        <p style="font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--c-gray-3);margin-bottom:.8rem">Misi Sekolah</p>
+        <div class="mission-list">
+          <div class="mi">
+            <span class="mi-num">01</span>
+            <p>Menyelenggarakan pembelajaran aktif, kreatif, dan menyenangkan berbasis Kurikulum Merdeka.</p>
+          </div>
+          <div class="mi">
+            <span class="mi-num">02</span>
+            <p>Membangun karakter siswa yang berakhlak mulia, jujur, disiplin, dan bertanggung jawab.</p>
+          </div>
+          <div class="mi">
+            <span class="mi-num">03</span>
+            <p>Menumbuhkan kecintaan terhadap budaya lokal Sunda sekaligus membuka wawasan global.</p>
+          </div>
+          <div class="mi">
+            <span class="mi-num">04</span>
+            <p>Mendorong inovasi dan kreativitas melalui sains, seni, teknologi, dan kewirausahaan.</p>
+          </div>
+          <div class="mi">
+            <span class="mi-num">05</span>
+            <p>Membangun kemitraan erat antara sekolah, orang tua, dan masyarakat sekitar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     GEULIS VALUES
+══════════════════════════════════════════════════════════ -->
+<section id="values" class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div style="text-align:center; margin-bottom:1rem">
+      <span class="label">Nilai Inti</span>
+      <h2 class="title">Konsep <span style="background:linear-gradient(90deg,var(--c-gold),var(--c-gold-lt));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">GEULIS</span></h2>
+    </div>
+    <div class="values-grid">
+      <div class="val-card">
+        <div class="val-icon">🤝</div>
+        <h4>Gotong Royong</h4>
+        <p>Membangun rasa kebersamaan dan kolaborasi dalam setiap kegiatan sekolah — karena pencapaian terbaik lahir dari kerja bersama.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon">💛</div>
+        <h4>Empati</h4>
+        <p>Mendidik siswa untuk peka terhadap sesama, menghormati perbedaan, dan hadir dengan hati yang terbuka bagi lingkungan sekitarnya.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon">🏆</div>
+        <h4>Unggul dalam Prestasi</h4>
+        <p>Mendorong setiap siswa meraih potensi terbaiknya — akademik, seni, olahraga, maupun kepemimpinan.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon">🌿</div>
+        <h4>Lingkungan Berkarakter</h4>
+        <p>Menjaga akar budaya Sunda sambil menanamkan nilai kebangsaan dan karakter mulia yang relevan sepanjang zaman.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon">💡</div>
+        <h4>Inovatif</h4>
+        <p>Mendorong rasa ingin tahu, kreativitas, dan kemampuan berpikir kritis agar siswa siap menghadapi dunia yang terus berubah.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon">🙏</div>
+        <h4>Santun</h4>
+        <p>Menjunjung tinggi tata krama dan etika dalam setiap interaksi — di sekolah maupun di tengah masyarakat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     ACADEMIC
+══════════════════════════════════════════════════════════ -->
+<section id="academic" class="sec">
+  <div class="wrap">
+    <div style="text-align:center; margin-bottom:3.5rem">
+      <span class="label">Program Akademik</span>
+      <h2 class="title">Belajar yang Bermakna,<br/>Pendidikan yang Membebaskan</h2>
+      <p class="subtitle" style="margin:0 auto">Kami menerapkan pendekatan pembelajaran terkini yang menempatkan siswa sebagai pusat segalanya.</p>
+    </div>
+
+    <!-- Card 1: Kurikulum Merdeka -->
+    <div class="academic-inner">
+      <div class="ac-visual">
+        <span class="ac-visual-bg">📚</span>
+        <span class="ac-visual-icon">📚</span>
+      </div>
+      <div>
+        <span class="ac-tag">Kurikulum Nasional</span>
+        <h2 class="title" style="font-size:2rem">Kurikulum Merdeka<br/>di SMP PGRI Cililin</h2>
+        <span class="gold-bar"></span>
+        <p class="subtitle">
+          Kami mengimplementasikan <strong>Kurikulum Merdeka</strong> yang memberikan ruang lebih besar bagi siswa untuk mengeksplorasi minat dan bakat. Tidak sekadar menghafal — siswa diajak berpikir kritis, berkolaborasi, dan menciptakan solusi nyata.
+        </p>
+        <p style="font-size:.88rem;color:var(--c-text-2);margin-top:.7rem;line-height:1.8">
+          Melalui <strong>Proyek Penguatan Profil Pelajar Pancasila (P5)</strong>, siswa terlibat dalam proyek interdisipliner yang mengintegrasikan nilai kebangsaan, keberlanjutan, dan kewirausahaan ke dalam pengalaman belajar sehari-hari.
+        </p>
+        <div class="pillar-grid">
+          <div class="pillar">
+            <h5>Berbasis Kompetensi</h5>
+            <p>Fokus pada pemahaman mendalam, bukan sekadar nilai ujian.</p>
+          </div>
+          <div class="pillar">
+            <h5>Proyek Nyata (P5)</h5>
+            <p>Belajar sambil berkontribusi pada komunitas sekitar.</p>
+          </div>
+          <div class="pillar">
+            <h5>Asesmen Holistik</h5>
+            <p>Penilaian yang mengukur kemampuan dan karakter menyeluruh.</p>
+          </div>
+          <div class="pillar">
+            <h5>Pembelajaran Diferensiasi</h5>
+            <p>Adaptif sesuai kebutuhan dan gaya belajar setiap siswa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Card 2: Student-Centered -->
+    <div class="academic-inner flip">
+      <div class="ac-visual">
+        <span class="ac-visual-bg">🎯</span>
+        <span class="ac-visual-icon">🎯</span>
+      </div>
+      <div>
+        <span class="ac-tag">Pendekatan Pengajaran</span>
+        <h2 class="title" style="font-size:2rem">Siswa di Pusat,<br/>Karakter di Jantung</h2>
+        <span class="gold-bar"></span>
+        <p class="subtitle">
+          Guru kami bukan sekadar pengajar — mereka adalah fasilitator, mentor, dan teladan. Dalam setiap kelas, kami menciptakan suasana belajar yang aman dan menyenangkan, di mana siswa bebas bertanya, berkreasi, dan mengambil inisiatif.
+        </p>
+        <p style="font-size:.88rem;color:var(--c-text-2);margin-top:.7rem;line-height:1.8">
+          Pendidikan karakter bukan hanya mata pelajaran tambahan — ia adalah napas dari seluruh proses belajar mengajar kami, dari kegiatan pembuka kelas hingga rutinitas harian yang penuh makna.
+        </p>
+        <div class="method-tags">
+          <span class="m-tag">Student-Centered Learning</span>
+          <span class="m-tag">Collaborative Learning</span>
+          <span class="m-tag">Problem-Based Learning</span>
+          <span class="m-tag">Pendidikan Karakter</span>
+          <span class="m-tag">Literasi &amp; Numerasi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     STUDENT LIFE
+══════════════════════════════════════════════════════════ -->
+<section id="student-life" class="sec">
+  <div class="wrap">
+    <div style="text-align:center; margin-bottom:.5rem">
+      <span class="label">Kesiswaan</span>
+      <h2 class="title">Kehidupan Sekolah yang<br/>Penuh Warna &amp; Makna</h2>
+      <p class="subtitle" style="margin:0 auto">Di luar kelas, siswa kami tumbuh lewat kegiatan yang memperkuat jiwa kepemimpinan, kebersamaan, dan rasa cinta tanah air.</p>
+    </div>
+
+    <!-- Extracurriculars -->
+    <p class="label" style="margin-top:2.5rem">Ekstrakurikuler Unggulan</p>
+    <div class="ekskul-grid">
+
+      <div class="ekskul-card">
+        <div class="ec-head">
+          ⚽
+          <span class="ec-badge">Olahraga</span>
+        </div>
+        <div class="ec-body">
+          <h3>Futsal</h3>
+          <p>Tim futsal kami menempa kerja tim, disiplin, dan sportivitas. Berlatih rutin di bawah pelatih berpengalaman dan telah berprestasi di kompetisi tingkat daerah.</p>
+          <span class="ec-link">Bergabung →</span>
+        </div>
+      </div>
+
+      <div class="ekskul-card">
+        <div class="ec-head">
+          ⚜️
+          <span class="ec-badge">Kepramukaan</span>
+        </div>
+        <div class="ec-body">
+          <h3>Pramuka</h3>
+          <p>Melalui Gerakan Pramuka, siswa dibentuk menjadi pribadi yang tangguh, mandiri, dan peduli lingkungan, dengan jiwa kepemimpinan yang kuat sejak dini.</p>
+          <span class="ec-link">Bergabung →</span>
+        </div>
+      </div>
+
+      <div class="ekskul-card">
+        <div class="ec-head">
+          🚩
+          <span class="ec-badge">Kebangsaan</span>
+        </div>
+        <div class="ec-body">
+          <h3>Paskibra</h3>
+          <p>Pasukan Pengibar Bendera melatih siswa dalam kedisiplinan tinggi, ketelitian, dan kebanggaan nasional — kehormatan yang membentuk karakter dan cinta tanah air.</p>
+          <span class="ec-link">Bergabung →</span>
+        </div>
+      </div>
+
+      <div class="ekskul-card">
+        <div class="ec-head">
+          🌟
+          <span class="ec-badge">Organisasi</span>
+        </div>
+        <div class="ec-body">
+          <h3>OSIS</h3>
+          <p>Organisasi Intra Sekolah menjadi wadah kepemimpinan dan kreativitas siswa. OSIS menginisiasi program-program inovatif yang memberi dampak nyata bagi sekolah dan komunitas.</p>
+          <span class="ec-link">Bergabung →</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Daily habits -->
+    <div style="margin-top:4rem">
+      <p class="label">Rutinitas Harian</p>
+      <h3 class="title" style="font-size:1.8rem; margin-bottom:0">Kebiasaan yang Membentuk Karakter</h3>
+    </div>
+    <div class="habits-grid">
+      <div class="habit">
+        <div class="habit-ico">🕌</div>
+        <div>
+          <h4>Kegiatan Keagamaan</h4>
+          <p>Setiap hari dimulai dengan doa bersama, tadarus Al-Qur'an, dan shalat Dhuha berjamaah. Rutinitas ini menanamkan nilai spiritual yang menjadi fondasi karakter setiap siswa.</p>
+        </div>
+      </div>
+      <div class="habit">
+        <div class="habit-ico">📖</div>
+        <div>
+          <h4>Literasi Pagi</h4>
+          <p>Sebelum pembelajaran dimulai, siswa meluangkan 15 menit untuk membaca buku pilihan. Program ini menumbuhkan budaya membaca yang menjadi kunci kesuksesan akademik dan kehidupan.</p>
+        </div>
+      </div>
+      <div class="habit">
+        <div class="habit-ico">🇮🇩</div>
+        <div>
+          <h4>Upacara &amp; Apel Kebangsaan</h4>
+          <p>Upacara bendera dan apel pagi dijalankan dengan tertib dan penuh penghayatan, memperkuat rasa persatuan dan kebanggaan sebagai warga negara Indonesia.</p>
+        </div>
+      </div>
+      <div class="habit">
+        <div class="habit-ico">🌿</div>
+        <div>
+          <h4>Peduli Lingkungan</h4>
+          <p>Program Jumat Bersih dan piket kelas harian mengajarkan tanggung jawab terhadap kebersihan lingkungan. Sekolah yang bersih mencerminkan jiwa yang bersih.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     GALLERY
+══════════════════════════════════════════════════════════ -->
+<section id="gallery" class="sec">
+  <div class="wrap">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="label">Galeri</span>
+        <h2 class="title">Momen yang<br/>Berbicara Sendiri</h2>
+      </div>
+      <a href="https://instagram.com/smp_pgricililin" target="_blank" class="btn btn-navy">
+        Lihat di Instagram →
+      </a>
+    </div>
+
+    <div class="gallery-filter">
+      <input type="radio" name="gf" id="gf-all" checked/><label class="gf-btn" for="gf-all">Semua</label>
+      <input type="radio" name="gf" id="gf-ak"/><label class="gf-btn" for="gf-ak">Akademik</label>
+      <input type="radio" name="gf" id="gf-eks"/><label class="gf-btn" for="gf-eks">Ekstrakurikuler</label>
+      <input type="radio" name="gf" id="gf-keg"/><label class="gf-btn" for="gf-keg">Kegiatan Sekolah</label>
+      <input type="radio" name="gf" id="gf-pre"/><label class="gf-btn" for="gf-pre">Prestasi</label>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gi t1 tall">
+        <span class="gi-ico">🏫</span>
+        <div class="gi-label"><strong>Gedung Utama Sekolah</strong><span>Lingkungan belajar yang kondusif</span></div>
+      </div>
+      <div class="gi t2">
+        <span class="gi-ico">⚽</span>
+        <div class="gi-label"><strong>Latihan Futsal</strong><span>Ekskul Futsal — Kompetisi Daerah</span></div>
+      </div>
+      <div class="gi t3">
+        <span class="gi-ico">📚</span>
+        <div class="gi-label"><strong>Literasi Pagi</strong><span>15 menit membaca setiap hari</span></div>
+      </div>
+      <div class="gi t4 wide">
+        <span class="gi-ico">🚩</span>
+        <div class="gi-label"><strong>Upacara Hari Kemerdekaan</strong><span>Paskibra SMP PGRI Cililin — 17 Agustus</span></div>
+      </div>
+      <div class="gi t5">
+        <span class="gi-ico">⚜️</span>
+        <div class="gi-label"><strong>Kemah Pramuka</strong><span>Kegiatan Perkemahan Tahunan</span></div>
+      </div>
+      <div class="gi t6">
+        <span class="gi-ico">🏆</span>
+        <div class="gi-label"><strong>Prestasi Siswa</strong><span>Olimpiade Tingkat Kabupaten</span></div>
+      </div>
+      <div class="gi t7">
+        <span class="gi-ico">🎨</span>
+        <div class="gi-label"><strong>Proyek P5</strong><span>Karya Siswa — Kearifan Lokal Sunda</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PPDB BANNER
+══════════════════════════════════════════════════════════ -->
+<section id="ppdb" class="sec-sm">
+  <div class="wrap" style="text-align:center">
+    <p style="font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(13,27,62,.55);margin-bottom:.4rem">Penerimaan Peserta Didik Baru</p>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);color:var(--c-navy)">Tahun Ajaran 2025/2026<br/>Daftar Sekarang!</h2>
+    <p>Bergabunglah bersama keluarga besar SMP PGRI Cililin — tempat terbaik untuk bertumbuh, berkarya, dan berprestasi.</p>
+    <div class="ppdb-chips">
+      <span class="pchip">✔ Kurikulum Merdeka</span>
+      <span class="pchip">✔ Ekskul Aktif</span>
+      <span class="pchip">✔ Lingkungan Kondusif</span>
+      <span class="pchip">✔ Guru Berpengalaman</span>
+      <span class="pchip">✔ Program Literasi</span>
+    </div>
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1rem">
+      <a href="#contact" class="btn btn-navy">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.1a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15z"/></svg>
+        Hubungi Kami
+      </a>
+      <a href="mailto:smppgri20206130@gmail.com" class="btn" style="background:rgba(13,27,62,.1);color:var(--c-navy);font-weight:700">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Kirim Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     CONTACT
+══════════════════════════════════════════════════════════ -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- Left -->
+      <div>
+        <span class="label">Hubungi Kami</span>
+        <h2 class="contact-left h2" style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.2vw,2.6rem);color:var(--c-navy);line-height:1.22">Kami Siap<br/>Menyambut Anda<br/>dengan Tangan Terbuka</h2>
+        <p class="tagline" style="font-size:.95rem;color:var(--c-text-2);margin:1rem 0 2rem;line-height:1.82">
+          Ada pertanyaan seputar pendaftaran, program sekolah, atau informasi lainnya? Jangan ragu — tim kami siap membantu Anda dengan sepenuh hati.
+        </p>
+        <div class="cinfo">
+          <div class="ci">
+            <div class="ci-ico">📍</div>
+            <div>
+              <h5>Alamat</h5>
+              <p>Jl. Raya Cililin Utara No. 121,<br/>Cililin, Bandung Barat, Jawa Barat</p>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-ico">✉️</div>
+            <div>
+              <h5>Email</h5>
+              <a href="mailto:smppgri20206130@gmail.com">smppgri20206130@gmail.com</a>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-ico">📲</div>
+            <div>
+              <h5>Telepon & WhatsApp</h5>
+              <p>0878-4528-0930</p>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-ico">📸</div>
+            <div>
+              <h5>Instagram</h5>
+              <a href="https://instagram.com/smp_pgricililin" target="_blank">@smp_pgricililin</a>
+            </div>
+          </div>
+		  <div class="ci">
+            <div class="ci-ico">🕐</div>
+            <div>
+              <h5>Jam Operasional</h5>
+              <p>Senin – Jumat: 07.00 – 15.00 WIB<br/>Sabtu & Minggi: 07.00 – 12.00 WIB</p>
+            </div>
+          </div>
+        </div>
+        <div class="visit-note">
+          <p><strong>Untuk orang tua &amp; calon siswa:</strong> Kami membuka sesi kunjungan sekolah setiap hari. Kenali langsung suasana belajar kami dan temukan mengapa SMP PGRI Cililin adalah pilihan terbaik untuk putra-putri Anda.</p>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="contact-form">
+        <h3>Kirim Pesan</h3>
+        <p>Isi formulir di bawah ini dan tim kami akan menghubungi Anda dalam 1×24 jam.</p>
+        <div class="frow">
+          <div class="fg">
+            <label>Nama Lengkap</label>
+            <input type="text" placeholder="Nama Anda"/>
+          </div>
+          <div class="fg">
+            <label>No. WhatsApp</label>
+            <input type="tel" placeholder="08xx-xxxx-xxxx"/>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Email</label>
+          <input type="email" placeholder="email@contoh.com"/>
+        </div>
+        <div class="fg">
+          <label>Keperluan</label>
+          <select>
+            <option>Informasi PPDB</option>
+            <option>Kunjungan Sekolah</option>
+            <option>Informasi Akademik</option>
+            <option>Informasi Ekstrakurikuler</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Pesan</label>
+          <textarea placeholder="Tulis pesan Anda di sini..."></textarea>
+        </div>
+        <button class="submit-btn">
+          Kirim Pesan
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <img
+          src="https://drive.google.com/uc?export=view&id=1N8AfHmyjmxJKAZL3GrR9poquIf_1kyc5"
+          alt="Logo SMP PGRI Cililin"
+          onerror="this.style.display='none'"
+        />
+        <strong>SMP PGRI Cililin</strong>
+        <p>Membangun generasi yang berilmu, berkarakter, dan berprestasi. Melayani masyarakat Cililin dan Bandung Barat dengan sepenuh hati sejak 1967.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/smp_pgricililin" target="_blank" class="soc-btn" title="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="mailto:smppgri20206130@gmail.com" class="soc-btn" title="Email">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="#about">Profil Sekolah</a></li>
+          <li><a href="#academic">Akademik</a></li>
+          <li><a href="#student-life">Kesiswaan</a></li>
+          <li><a href="#gallery">Galeri</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Program</h4>
+        <ul>
+          <li><a href="#academic">Kurikulum Merdeka</a></li>
+          <li><a href="#student-life">Futsal</a></li>
+          <li><a href="#student-life">Pramuka</a></li>
+          <li><a href="#student-life">Paskibra</a></li>
+          <li><a href="#student-life">OSIS</a></li>
+          <li><a href="#ppdb">PPDB 2025/2026</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Jl. Raya Cililin Utara No. 121</a></li>
+          <li><a href="#">Cililin, Bandung Barat</a></li>
+          <li><a href="#">Jawa Barat, Indonesia</a></li>
+          <li><a href="mailto:smppgri20206130@gmail.com">smppgri20206130@gmail.com</a></li>
+          <li><a href="https://instagram.com/smp_pgricililin" target="_blank">@smp_pgricililin</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 SMP PGRI Cililin. Hak Cipta Dilindungi.</span>
+      <div class="geulis-tags">
+        <span>Gotong Royong</span>
+        <span>Empati</span>
+        <span>Unggul</span>
+        <span>Lingkungan Berkarakter</span>
+        <span>Inovatif</span>
+        <span>Santun</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════
+     MINIMAL JS — only for navbar scroll class (no JS required
+     for core layout, but scroll class improves UX greatly)
+══════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('stuck', window.scrollY > 60);
+  }, { passive: true });
+  // close mobile menu on link click
+  document.querySelectorAll('.nav-menu a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.getElementById('nav-cb').checked = false;
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
